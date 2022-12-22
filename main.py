@@ -1,5 +1,4 @@
 import re
-
 #Open the file in read mode and read its contents into a string
 with open('div_notepad.txt', "r") as oldfile:
      text = oldfile.read()
@@ -9,11 +8,12 @@ text = text.replace('\n', ' ')
 
 years = ['2022', '2023', '2024']
 #Annual ("A") needs to be followed by a year to be replaced, so we don't replace "A" in a Class A ETF/company
-frequency_years = [year + ' ;' + ' A' for year in years]
+frequency_years = [year + ' A' for year in years]
 
 #replace anything that is identical to the freq_years
 for freq_year in frequency_years:
     text = re.sub(r' {}'.format(freq_year), ' {}\n'.format(freq_year), text)
+print(text)
 
 frequency = ["Q", "M", "S"]
 #replace if it match the freq and if it is a single word
@@ -30,11 +30,11 @@ lines[0] = " " + lines[0]
 modified_lines = []
 modified_lines_final = []
 
-#loop trought the lines except the first one
+#loop trought the lines
 for line in lines:
-    #Skip the first character (a space) for all lines except for the first one
+    #Skip the first character (a space)
     modified_line = line[1:]
-
+    #add semi colons around a decimal (the dividend)
     modified_line = re.sub(r'(\d+\.\d+)', '; \\1 ;', modified_line)
     #Add the individual line into lines, which represents the text file
     modified_lines.append(modified_line)
@@ -50,12 +50,15 @@ for line in lines:
     else:
         #If no digits as the first character, then keep it as is
         modified_line_final = modified_line
-   # modified_line_final[i] = re.sub(r'(\d+\.\d+)', '; \\1', modified_line_final)
+
+    #generate the final text file
     modified_lines_final.append(modified_line_final)
 
 #Iterate over the list of lines
 for i in range(len(modified_lines_final)):
+    #split into words
     words = modified_lines_final[i].split()
+    #add a semi colon after the first word
     words.insert(1, ';')
     #reconstruct the sentences
     modified_lines_final[i] = ' '.join(words)

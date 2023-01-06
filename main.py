@@ -7,7 +7,6 @@ with open('dividends.txt', "r") as oldfile:
 #Remove end of lines
 text = text.replace('\n', ' ')
 
-#todo: update every year [current year, current +1, current year +2]
 #Find today's year
 today = datetime.date.today()
 year = today.year
@@ -91,9 +90,3 @@ modified_text = modified_text.replace(' ; ', ';')
 #Output the final result in a new text file
 with open('dividends_cleaned.txt', "w") as f:
     f.write(modified_text)
-
-
-
-
-
-

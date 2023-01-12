@@ -37,7 +37,6 @@ for freq in frequency:
     #replace "Q", "M" and "S", if it is a perfect match (it won't change the word "EQUITY" even if we search for "Q")
     text = re.sub(r'\b {}\b'.format(freq), ' {}\n'.format(freq), text)
 
-
 #add end of line if "page number of number" fits
 text = re.sub(r'(page \d+\ of \d+)',' \\1\n', text)
 #Split the modified text into a list of lines
@@ -53,7 +52,6 @@ lines[0] = " " + lines[0]
 #create variables
 modified_lines = []
 modified_lines_final = []
-
 
 #loop trought the lines
 for line in lines:
@@ -93,17 +91,14 @@ for i in range(len(modified_lines_final)):
     #reconstruct the sentences
     modified_lines_final[i] = ' '.join(words)
 
-
 #Join the modified lines back into a single string
 modified_text = "\n".join(modified_lines_final)
-print(modified_text)
 
 #add a coma to convert the dates and add a semi colon for all years
 space_years = [" " + year for year in years]
 for year in space_years:
     modified_text = modified_text.replace(year,',' + year + ' ;')
 modified_text = modified_text.replace(' ; ', ';')
-
 
 #Output the final result in a new text file
 with open('dividends_cleaned.txt', "w") as f:

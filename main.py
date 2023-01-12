@@ -1,7 +1,16 @@
 import re
 import datetime
+import os
+
+#Define the path to look at the files
+path = r'C:\Users\tony1\Desktop\Test'
+file_name = 'dividends.txt'
+
+#Define the path
+os.chdir(path)
+
 #Open the file in read mode and read its contents into a string
-with open('dividends.txt', "r") as oldfile:
+with open(file_name, "r") as oldfile:
      text = oldfile.read()
 
 #Remove end of lines

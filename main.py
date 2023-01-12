@@ -6,7 +6,6 @@ with open('dividends.txt', "r") as oldfile:
 
 #Remove end of lines
 text = text.replace('\n', ' ')
-print(text)
 
 #Find today's year
 today = datetime.date.today()
@@ -29,16 +28,24 @@ for freq in frequency:
     #replace "Q", "M" and "S", if it is a perfect match (it won't change the word "EQUITY" even if we search for "Q")
     text = re.sub(r'\b {}\b'.format(freq), ' {}\n'.format(freq), text)
 
+
 #add end of line if "page number of number" fits
 text = re.sub(r'(page \d+\ of \d+)',' \\1\n', text)
 #Split the modified text into a list of lines
+
 lines = text.split("\n")
-print(lines)
+
+#Remove empty string in the list
+while("" in lines):
+    lines.remove("")
+
 #Add a space to the first one to be identical to other lines
 lines[0] = " " + lines[0]
 #create variables
 modified_lines = []
 modified_lines_final = []
+
+
 #loop trought the lines
 for line in lines:
 
@@ -53,19 +60,16 @@ for line in lines:
 
     #If the first character is a digit
 
-    try:
-        if modified_line[0].isdigit():
-            #Then remove the 3 first characters
-            modified_line_final = modified_line[3:]
-            #If there is another digit as the first character
-            if modified_line_final[0].isdigit():
-                # then remove the 3 first characters again
-                modified_line_final = modified_line_final[3:]
-        else:
-            #If no digits as the first character, then keep it as is
-            modified_line_final = modified_line
-    except :
-        pass
+    if modified_line[0].isdigit():
+        #Then remove the 3 first characters
+        modified_line_final = modified_line[3:]
+        #If there is another digit as the first character
+        if modified_line_final[0].isdigit():
+            # then remove the 3 first characters again
+            modified_line_final = modified_line_final[3:]
+    else:
+        #If no digits as the first character, then keep it as is
+        modified_line_final = modified_line
 
     #generate the final text file
     modified_lines_final.append(modified_line_final)
@@ -83,9 +87,11 @@ for i in range(len(modified_lines_final)):
 
 #Join the modified lines back into a single string
 modified_text = "\n".join(modified_lines_final)
+print(modified_text)
 
 #add a coma to convert the dates and add a semi colon for all years
-for year in years:
+space_years = [" " + year for year in years]
+for year in space_years:
     modified_text = modified_text.replace(year,',' + year + ' ;')
 modified_text = modified_text.replace(' ; ', ';')
 

@@ -6,6 +6,7 @@ with open('dividends.txt', "r") as oldfile:
 
 #Remove end of lines
 text = text.replace('\n', ' ')
+print(text)
 
 #Find today's year
 today = datetime.date.today()
@@ -30,16 +31,14 @@ for freq in frequency:
 
 #add end of line if "page number of number" fits
 text = re.sub(r'(page \d+\ of \d+)',' \\1\n', text)
-
 #Split the modified text into a list of lines
 lines = text.split("\n")
-
+print(lines)
 #Add a space to the first one to be identical to other lines
 lines[0] = " " + lines[0]
 #create variables
 modified_lines = []
 modified_lines_final = []
-
 #loop trought the lines
 for line in lines:
 
@@ -53,16 +52,20 @@ for line in lines:
     #modified_lines.append(modified_line) #useless
 
     #If the first character is a digit
-    if modified_line[0].isdigit():
-        #Then remove the 3 first characters
-        modified_line_final = modified_line[3:]
-        #If there is another digit as the first character
-        if modified_line_final[0].isdigit():
-            # then remove the 3 first characters again
-            modified_line_final = modified_line_final[3:]
-    else:
-        #If no digits as the first character, then keep it as is
-        modified_line_final = modified_line
+
+    try:
+        if modified_line[0].isdigit():
+            #Then remove the 3 first characters
+            modified_line_final = modified_line[3:]
+            #If there is another digit as the first character
+            if modified_line_final[0].isdigit():
+                # then remove the 3 first characters again
+                modified_line_final = modified_line_final[3:]
+        else:
+            #If no digits as the first character, then keep it as is
+            modified_line_final = modified_line
+    except :
+        pass
 
     #generate the final text file
     modified_lines_final.append(modified_line_final)
